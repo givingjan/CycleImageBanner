@@ -15,10 +15,10 @@ Cycle Banner Swift,support auto and manual scroll, and you can scroll it infinit
 Just drag 'SMCycleBannerView.swift' into your project.
 ###### using Autolayout (Storyboard)
 
-Create a UIView in storyboard,then change the view's class to "SMCycleBannerView", 
-then connect it to your viewController.
+Create a UIView in storyboard,then change the view class to "SMCycleBannerView", 
+and connect it to your viewController.
 
-```
+```swift
 @IBOutlet var m_cycleBannerView: SMCycleBannerView!
 
 self.m_cycleBannerView.initCycleBanner()
@@ -33,7 +33,7 @@ self.m_cycleBannerView.configureImageViews(aryImages,autoScroll: true,didClickEv
 })
 ```
 ###### using Frame (programmatically)
-```
+```swift
 // need to set it to "false"
 self.automaticallyAdjustsScrollViewInsets = false
     
@@ -54,7 +54,7 @@ self.m_cycleBannerView.configureImageViews(
 
 ```
 ###### optional configure
-```
+```swift
 // pageControl color
 self.m_cycleBannerView.configurePageControlColor(indicatorTintColor: .white, currentPageIndicatorTintColor: .darkGray)
 // autoScroll timeInterval.
