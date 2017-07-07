@@ -16,7 +16,7 @@ class UsingAutolayoutViewController: UIViewController {
         super.viewDidLoad()
         
         self.m_cycleBannerView.initCycleBanner()
-        self.m_cycleBannerView.configureTimeInterval(timeInterval: 2.0)
+        self.m_cycleBannerView.configureTimeInterval(timeInterval: 4.0)
         
         // if your images need loading, you can configure placeholder image.
         self.m_cycleBannerView.configurePlaceholderImage(#imageLiteral(resourceName: "bg1.jpg"))

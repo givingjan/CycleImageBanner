@@ -33,8 +33,8 @@ class SMCycleBannerView: UIView {
     private var m_aryImageSources : [UIImage]?
     private var m_ivPlaceHolder : UIImageView?
     private var m_btnTouch : UIButton!
-    private var m_timerInterval : Double = 7.0
-    private var m_timer : Timer?
+    fileprivate var m_timerInterval : Double = 7.0
+    fileprivate var m_timer : Timer?
     
     // MARK : Life Cycle
     override func awakeFromNib() {
@@ -137,6 +137,25 @@ class SMCycleBannerView: UIView {
         self.m_currentOffsetX = self.m_scrollView!.contentOffset.x
     }
     
+    fileprivate func fireTimer() {
+        if self.m_timer == nil {
+            self.m_timer = Timer.scheduledTimer(timeInterval: self.m_timerInterval,
+                                                target: self,
+                                                selector: #selector(SMCycleBannerView.scrollToNextPage),
+                                                userInfo: nil,
+                                                repeats: true)
+            
+            RunLoop.main.add(self.m_timer!, forMode: RunLoopMode.commonModes)
+        }
+    }
+    
+    fileprivate func stopTimer() {
+        if self.m_timer != nil {
+            self.m_timer?.invalidate()
+            self.m_timer = nil
+        }
+    }
+    
     // MARK : Public Methods
     func configurePlaceholderImage(_ placeHolderImage : UIImage) {
         if self.m_ivPlaceHolder != nil {
@@ -159,6 +178,7 @@ class SMCycleBannerView: UIView {
         self.m_pageControl.pageIndicatorTintColor = indicatorTintColor
         self.m_pageControl.currentPageIndicatorTintColor = currentPageIndicatorTintColor
     }
+    
 
     
     func configureImageViews(_ images : [UIImage], autoScroll : Bool, didClickEventClosure : ((_ index : Int)->())?) {
@@ -193,15 +213,7 @@ class SMCycleBannerView: UIView {
         self.m_pageControl.currentPage = self.m_currentIndex
         
         if autoScroll == true {
-            if self.m_timer == nil {
-                self.m_timer = Timer.scheduledTimer(timeInterval: self.m_timerInterval,
-                                                    target: self,
-                                                    selector: #selector(SMCycleBannerView.scrollToNextPage),
-                                                    userInfo: nil,
-                                                    repeats: true)
-                
-                RunLoop.main.add(self.m_timer!, forMode: RunLoopMode.commonModes)
-            }
+            self.fireTimer()
         }
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(SMCycleBannerView.didTouchEvent))
@@ -211,6 +223,10 @@ class SMCycleBannerView: UIView {
 }
 
 extension SMCycleBannerView : UIScrollViewDelegate {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.stopTimer()
+    }
+    
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         scrollImage()
     }
@@ -223,6 +239,7 @@ extension SMCycleBannerView : UIScrollViewDelegate {
         }
 
         scrollImage()
+        fireTimer()
     }
     
 }
