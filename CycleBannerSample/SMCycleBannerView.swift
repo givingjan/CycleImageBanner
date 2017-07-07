@@ -52,8 +52,10 @@ class SMCycleBannerView: UIView {
     
     // MARK : Init Methods
     func initCycleBanner() {
-        initScrollView()
-        initPageControl()
+        if self.m_scrollView == nil {
+            initScrollView()
+            initPageControl()
+        }
     }
     
     // MARK : Private Methods
